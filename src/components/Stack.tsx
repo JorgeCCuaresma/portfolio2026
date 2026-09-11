@@ -38,7 +38,7 @@ const skills: Skill[] = [
     { name: "Postman", icon: "▶", category: "tools" },
     { name: "Redis Insight", icon: "◉", category: "tools" },
     { name: "Dbeaver", icon: "◐", category: "tools" },
-    { name: "Jest / Vitest", icon: "✓", category: "tools" },
+    { name: "MQTTX", icon: "◌", category: "tools" },
 ];
 
 const categoryLabels: Record<Skill["category"], string> = {
