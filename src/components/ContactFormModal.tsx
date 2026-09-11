@@ -165,7 +165,7 @@ export default function ContactFormModal({ open, onClose }: ContactFormModalProp
                             <textarea
                                 id="contact-message"
                                 className={`form-input form-textarea${errors.message ? " form-input--error" : ""}`}
-                                placeholder="Cuéntame sobre tu proyecto o propuesta..."
+                                placeholder="Cuéntame cómo puedo ayudarte..."
                                 rows={4}
                                 aria-invalid={!!errors.message}
                                 aria-describedby={errors.message ? "err-message" : undefined}

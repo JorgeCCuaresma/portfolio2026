@@ -34,7 +34,7 @@ export const fileSystem: FsNode = {
   "about.txt":
     "JORGE CUESTA — Backend Developer\n═══════════════════════════════════\n\nSoy una persona curiosa, inquieta y con ganas\nde seguir aprendiendo constantemente.\n\nMe gusta entender cómo funcionan las cosas,\nenfrentarme a problemas nuevos y buscar la mejor\nmanera de resolverlos.\n\nDisfruto especialmente diseñando flujos completos,\nexplorando diferentes posibilidades y convirtiendo\nideas en algo real.\n\nTambién me gusta compartir ideas, contrastar\npuntos de vista y aprender de los demás.\n\n> keep_learning();",
   "contact.txt":
-    "CONTACTO\n════════\n\n✉ Email:     jorge@ejemplo.com\n⑂ GitHub:    @jorgecuesta\nin LinkedIn:  /in/jorgecuesta\n\n¿Buscas un desarrollador backend con ganas\nde crecer y aportar? Estoy abierto a\noportunidades y colaboraciones.",
+    "CONTACTO\n════════\n\n✉ Email:     jorgecuesta.90@gmail.com\n⑂ GitHub:     @jorgecuesta\nLinkedIn:     /in/jorgecuesta\n\nSi has llegado hasta aquí, ya tenemos algo en común.\nSi quieres hablar de tecnología, compartir ideas o simplemente\nsaludar, escríbeme."
 };
 
 export type Line = { prompt: string; text: string };

@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from "react";
 import { executeCommand, getCompletions, type Line } from "./terminalFs";
 
 const introLines = [
@@ -32,8 +32,11 @@ function buildPrompt(cwd: string) {
 }
 
 export default function Terminal() {
-    const [history, setHistory] = useState<Line[]>([]);
-    const [animDone, setAnimDone] = useState(false);
+    const [history, setHistory] = useState<Line[]>(() => [
+        ...introLines.map((line) => ({ prompt: line.prompt, text: line.command })),
+        { prompt: "", text: "" },
+        { prompt: "", text: "Terminal interactiva. Escribe 'help' para ver comandos." },
+    ]);
     const [currentLine, setCurrentLine] = useState(0);
     const [charIndex, setCharIndex] = useState(0);
     const [animLines, setAnimLines] = useState<
@@ -41,9 +44,10 @@ export default function Terminal() {
     >([]);
 
     // Interactive state
+    const animDone = currentLine >= introLines.length;
     const [input, setInput] = useState("");
     const [cwd, setCwd] = useState("/");
-    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [suggestionsDismissed, setSuggestionsDismissed] = useState(false);
     const [selectedSuggestion, setSelectedSuggestion] = useState(0);
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [historyIdx, setHistoryIdx] = useState(-1);
@@ -56,34 +60,36 @@ export default function Terminal() {
 
     // === INTRO ANIMATION ===
     useEffect(() => {
-        if (animDone || currentLine >= introLines.length) {
-            if (!animDone && currentLine >= introLines.length) {
-                setAnimDone(true);
-            }
+        if (animDone) {
             return;
         }
 
         const line = introLines[currentLine];
 
         if (line.delay === 0) {
-            setAnimLines((prev) => [
-                ...prev,
-                { prompt: line.prompt, text: line.command, typing: false },
-            ]);
-            setCurrentLine((l) => l + 1);
-            return;
-        }
-
-        if (charIndex === 0 && line.command.length > 0) {
-            setAnimLines((prev) => [
-                ...prev,
-                { prompt: line.prompt, text: "", typing: true },
-            ]);
+            const timer = setTimeout(() => {
+                setAnimLines((prev) => [
+                    ...prev,
+                    { prompt: line.prompt, text: line.command, typing: false },
+                ]);
+                setCurrentLine((l) => l + 1);
+            }, 0);
+            return () => clearTimeout(timer);
         }
 
         if (charIndex < line.command.length) {
             const timer = setTimeout(() => {
                 setAnimLines((prev) => {
+                    if (charIndex === 0) {
+                        return [
+                            ...prev,
+                            {
+                                prompt: line.prompt,
+                                text: line.command.slice(0, 1),
+                                typing: true,
+                            },
+                        ];
+                    }
                     const updated = [...prev];
                     const last = updated[updated.length - 1];
                     updated[updated.length - 1] = {
@@ -110,20 +116,14 @@ export default function Terminal() {
         return () => clearTimeout(timer);
     }, [currentLine, charIndex, animDone]);
 
-    // Convert animation lines to history when done
-    useEffect(() => {
-        if (animDone) {
-            const converted: Line[] = animLines.map((l) => ({
-                prompt: l.prompt,
-                text: l.text,
-            }));
-            setHistory([
-                ...converted,
-                { prompt: "", text: "" },
-                { prompt: "", text: "Terminal interactiva. Escribe 'help' para ver comandos." },
-            ]);
-        }
-    }, [animDone]);
+    const suggestions = useMemo(
+        () => (
+            !suggestionsDismissed && animDone && input.trim()
+                ? getCompletions(input, cwd).slice(0, 5)
+                : []
+        ),
+        [suggestionsDismissed, animDone, input, cwd],
+    );
 
     // Scroll to bottom
     useEffect(() => {
@@ -131,18 +131,6 @@ export default function Terminal() {
             bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
         }
     }, [history, animLines, suggestions]);
-
-    // Autocomplete
-    useEffect(() => {
-        if (!animDone) return;
-        if (input.trim()) {
-            const completions = getCompletions(input, cwd);
-            setSuggestions(completions.slice(0, 5));
-            setSelectedSuggestion(0);
-        } else {
-            setSuggestions([]);
-        }
-    }, [input, cwd, animDone]);
 
     // Decide suggestion position based on available space
     useLayoutEffect(() => {
@@ -175,7 +163,8 @@ export default function Terminal() {
             const parts = input.trimStart().split(/\s+/);
             parts[parts.length - 1] = suggestion;
             setInput(parts.join(" "));
-            setSuggestions([]);
+            setSuggestionsDismissed(false);
+            setSelectedSuggestion(0);
             inputRef.current?.focus();
         },
         [input],
@@ -188,7 +177,8 @@ export default function Terminal() {
         if (input.trim() === "clear") {
             setHistory([]);
             setInput("");
-            setSuggestions([]);
+            setSuggestionsDismissed(false);
+            setSelectedSuggestion(0);
             if (input.trim()) {
                 setCmdHistory((prev) => [...prev, input.trim()]);
             }
@@ -205,7 +195,8 @@ export default function Terminal() {
         }
         setHistoryIdx(-1);
         setInput("");
-        setSuggestions([]);
+        setSuggestionsDismissed(false);
+        setSelectedSuggestion(0);
     }, [input, cwd]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -240,7 +231,8 @@ export default function Terminal() {
                 setInput(cmdHistory[newIdx]);
             }
         } else if (e.key === "Escape") {
-            setSuggestions([]);
+            setSuggestionsDismissed(true);
+            setSelectedSuggestion(0);
         }
     };
 
@@ -300,7 +292,11 @@ export default function Terminal() {
                                 type="text"
                                 className="terminal-input"
                                 value={input}
-                                onChange={(e) => setInput(e.target.value)}
+                                onChange={(e) => {
+                                    setInput(e.target.value);
+                                    setSuggestionsDismissed(false);
+                                    setSelectedSuggestion(0);
+                                }}
                                 onKeyDown={handleKeyDown}
                                 aria-label="Entrada de comandos de terminal"
                                 autoComplete="off"
