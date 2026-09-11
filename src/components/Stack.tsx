@@ -18,11 +18,12 @@ const skills: Skill[] = [
     { name: "MongoDB", icon: "🍃", category: "storage" },
     { name: "Azure Table Storage", icon: "◆", category: "storage" },
     { name: "Azure Blob Storage", icon: "▣", category: "storage" },
+    { name: "Azure Managed Redis", icon: "◉", category: "storage" },
 
     // Messaging
     { name: "MQTT", icon: "◌", category: "messaging" },
     { name: "Azure Service Bus", icon: "⇢", category: "messaging" },
-    { name: "Azure Managed Redis", icon: "◆", category: "messaging" },
+    { name: "Redis Pub/Sub", icon: "◉", category: "messaging" },
 
     // Cloud
     { name: "Azure", icon: "☁", category: "cloud" },
@@ -32,8 +33,11 @@ const skills: Skill[] = [
     { name: "Docker", icon: "🐳", category: "cloud" },
 
     // Herramientas
+    { name: "Visual Studio Code", icon: "▢", category: "tools" },
     { name: "Git", icon: "⑂", category: "tools" },
     { name: "Postman", icon: "▶", category: "tools" },
+    { name: "Redis Insight", icon: "◉", category: "tools" },
+    { name: "Dbeaver", icon: "◐", category: "tools" },
     { name: "Jest / Vitest", icon: "✓", category: "tools" },
 ];
 
