@@ -55,6 +55,7 @@ export default function Terminal() {
     const inputRef = useRef<HTMLInputElement>(null);
     const bodyRef = useRef<HTMLPreElement>(null);
     const terminalRef = useRef<HTMLDivElement>(null);
+    const introActiveRef = useRef(true);
     const suggestionsRef = useRef<HTMLUListElement>(null);
     const [suggestStyle, setSuggestStyle] = useState<React.CSSProperties>({});
 
@@ -127,10 +128,21 @@ export default function Terminal() {
 
     // Scroll to bottom
     useEffect(() => {
-        if (bodyRef.current) {
-            bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+        if (!bodyRef.current) return;
+
+        if (!animDone) {
+            bodyRef.current.scrollTop = 0;
+            return;
         }
-    }, [history, animLines, suggestions]);
+
+        if (introActiveRef.current) {
+            introActiveRef.current = false;
+            bodyRef.current.scrollTop = 0;
+            return;
+        }
+
+        bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+    }, [history, animLines, suggestions, animDone]);
 
     // Decide suggestion position based on available space
     useLayoutEffect(() => {
