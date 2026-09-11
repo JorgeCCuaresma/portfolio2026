@@ -19,7 +19,7 @@ export default function Hero() {
                     </p>
                     <div className="hero-actions">
                         <a href="#proyectos" className="btn btn-primary">
-                            Ver proyectos
+                            See my work
                         </a>
                         <a href="#contacto" className="btn btn-outline">
                             Contacto
