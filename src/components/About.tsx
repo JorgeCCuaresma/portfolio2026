@@ -1,8 +1,8 @@
 import { useCountUp } from "../hooks/useCountUp";
 
 export default function About() {
-    const [yearsValue, yearsRef] = useCountUp({ end: 2, suffix: "+" });
-    const [projectsValue, projectsRef] = useCountUp({ end: 10, suffix: "+" });
+    const [yearsValue, yearsRef] = useCountUp({ end: 3, suffix: "+" });
+    const [technologiesValue, technologiesRef] = useCountUp({ end: 25, suffix: "+" });
     const [coffeeValue, coffeeRef] = useCountUp({ end: 1200, suffix: "+" });
 
     return (
@@ -38,8 +38,8 @@ export default function About() {
                             <span className="stat-label">Años de experiencia</span>
                         </div>
                         <div className="stat-card">
-                            <span className="stat-number" ref={projectsRef}>{projectsValue}</span>
-                            <span className="stat-label">Proyectos completados</span>
+                            <span className="stat-number" ref={technologiesRef}>{technologiesValue}</span>
+                            <span className="stat-label">Tecnologías exploradas</span>
                         </div>
                         <div className="stat-card">
                             <span className="stat-number" ref={coffeeRef}>{coffeeValue}</span>
