@@ -7,19 +7,19 @@ interface FsNode {
 export const fileSystem: FsNode = {
   skills: {
     "backend.txt":
-      "BACKEND\n───────\nTS TypeScript        — daily\n⬢ Node.js            — daily\n⚡ Express          — daily\n◈ REST APIs          — daily\n⇄ SSE                — used",
+      "BACKEND\n───────\nTS TypeScript        — daily\n⬢ Node.js            — daily\n⚡ Express            — daily\n◈ REST APIs          — daily\n⇄ SSE                — used",
 
     "database.txt":
-      "DATOS Y ALMACENAMIENTO\n───────────────────────\n🐘 PostgreSQL         — daily\n◇ TypeORM             — used\n🍃 MongoDB            — daily\n◆ Azure Table Storage — used\n▣ Azure Blob Storage  — used",
+      "DATOS Y ALMACENAMIENTO\n───────────────────────\n🐘 PostgreSQL           — daily\n◇ TypeORM              — used\n🍃 MongoDB              — daily\n◆ Azure Table Storage   — used\n▣ Azure Blob Storage    — used\n◉ Azure Managed Redis   — used",
 
     "messaging.txt":
-      "MENSAJERÍA\n───────────\n◌ MQTT                — used\n⇢ Azure Service Bus   — used\n◆ Azure Managed Redis — used",
+      "MENSAJERÍA\n───────────\n◌ MQTT              — used\n⇢ Azure Service Bus — used\n◉ Redis Pub/Sub     — used",
 
     "cloud.txt":
       "CLOUD (AZURE)\n─────────────\n☁ Azure              — daily\n◇ Azure Kubernetes Service — used\n> Azure CLI           — used\n⟳ Azure Pipelines     — used\n🐳 Docker             — used",
 
     "tools.txt":
-      "HERRAMIENTAS\n────────────\n⑂ Git                — daily\n▶ Postman            — daily\n✓ Jest / Vitest      — used",
+      "HERRAMIENTAS\n────────────\n▢ Visual Studio Code — daily\n⑂ Git                — daily\n▶ Postman            — daily\n◉ Redis Insight      — daily\n◐ Dbeaver            — daily\n◌ MQTTX              — daily",
   },
   "some-work": {
     "machine.md":
