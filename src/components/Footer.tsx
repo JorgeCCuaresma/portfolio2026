@@ -10,7 +10,7 @@ export default function Footer() {
                     Construido con React + TypeScript + Vite.
                     El código fuente está en{" "}
                     <a
-                        href="https://github.com/jorgecuesta/portfolio"
+                        href="https://github.com/JorgeCCuaresma/portfolio2026"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
