@@ -672,6 +672,13 @@
   color: var(--color-bg);
 }
 
+@media (max-width: 768px) {
+  .contact-cta {
+    display: block;
+    margin-inline: auto;
+  }
+}
+
 /* ═══════════════════════════════════════════════
    Contact Form — Bottom Sheet
    ═══════════════════════════════════════════════ */
