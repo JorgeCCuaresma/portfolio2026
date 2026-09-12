@@ -420,15 +420,25 @@
 
   .about-stats {
     flex-direction: row;
+    min-width: 0;
   }
 
   .stat-card {
     flex: 1;
-    padding: var(--space-md);
+    min-width: 0;
+    align-items: center;
+    padding: var(--space-md) var(--space-sm);
+    text-align: center;
   }
 
   .stat-number {
     font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
   }
 }
 
